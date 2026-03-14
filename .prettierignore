@@ -1,0 +1,10 @@
+node_modules/
+dist/
+coverage/
+artifacts/
+.venv*/
+python/.venv*/
+tmp_*
+_premiere_out/
+fade_check/
+premiere-fade-verify-*/

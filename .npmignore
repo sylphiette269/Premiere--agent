@@ -1,0 +1,15 @@
+.github/
+.codex/
+docs/
+src/
+test/
+AGENTS.md
+CLAUDE.md
+CONTRIBUTING.md
+*.log
+*.tmp
+coverage/
+artifacts/
+node_modules/
+python/__pycache__/
+python/tests/

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ExtensionManifest
+  Version="5.0"
+  ExtensionBundleId="com.pr.mcp.panel"
+  ExtensionBundleVersion="1.1.0"
+  ExtensionBundleName="PR MCP Panel">
+  <ExtensionList>
+    <Extension Id="com.pr.mcp.panel.main" Version="1.1.0"/>
+    <Extension Id="com.pr.mcp.panel.hidden" Version="1.1.0"/>
+  </ExtensionList>
+  <ExecutionEnvironment>
+    <HostList>
+      <Host Name="PPRO" Version="[9.0,99.9]"/>
+    </HostList>
+    <LocaleList>
+      <Locale Code="All"/>
+    </LocaleList>
+    <RequiredRuntimeList>
+      <RequiredRuntime Name="CSXS" Version="6.0"/>
+    </RequiredRuntimeList>
+  </ExecutionEnvironment>
+  <DispatchInfoList>
+    <Extension Id="com.pr.mcp.panel.main">
+      <DispatchInfo>
+        <Resources>
+          <MainPath>./index.html</MainPath>
+          <CEFCommandLine>
+            <Parameter>--enable-nodejs</Parameter>
+            <Parameter>--mixed-context</Parameter>
+          </CEFCommandLine>
+        </Resources>
+        <Lifecycle>
+          <AutoVisible>true</AutoVisible>
+        </Lifecycle>
+        <UI>
+          <Type>Panel</Type>
+          <Menu>PR MCP</Menu>
+          <Geometry>
+            <Size>
+              <Width>320</Width>
+              <Height>400</Height>
+            </Size>
+            <MinSize>
+              <Width>280</Width>
+              <Height>300</Height>
+            </MinSize>
+            <MaxSize>
+              <Width>1920</Width>
+              <Height>2000</Height>
+            </MaxSize>
+          </Geometry>
+        </UI>
+      </DispatchInfo>
+    </Extension>
+    <Extension Id="com.pr.mcp.panel.hidden">
+      <DispatchInfo>
+        <Resources>
+          <MainPath>./index.html</MainPath>
+          <CEFCommandLine>
+            <Parameter>--enable-nodejs</Parameter>
+            <Parameter>--mixed-context</Parameter>
+          </CEFCommandLine>
+        </Resources>
+        <Lifecycle>
+          <AutoVisible>false</AutoVisible>
+          <StartOn>
+            <Event>com.adobe.csxs.events.ApplicationInitialized</Event>
+            <Event>applicationActivate</Event>
+          </StartOn>
+        </Lifecycle>
+        <UI>
+          <Type>Custom</Type>
+          <Geometry>
+            <Size>
+              <Width>1</Width>
+              <Height>1</Height>
+            </Size>
+            <MaxSize>
+              <Width>1</Width>
+              <Height>1</Height>
+            </MaxSize>
+          </Geometry>
+        </UI>
+      </DispatchInfo>
+    </Extension>
+  </DispatchInfoList>
+</ExtensionManifest>

@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PR MCP 控制台</title>
+  <style>
+    :root {
+      --paper: #eeece4;
+      --paper-strong: #fbf9f2;
+      --panel: rgba(255, 252, 246, 0.9);
+      --panel-strong: #fffdf8;
+      --line: rgba(17, 15, 11, 0.12);
+      --line-strong: rgba(17, 15, 11, 0.2);
+      --ink: #11100d;
+      --ink-soft: #4f4b43;
+      --ink-faint: #868176;
+      --accent: #e46b2d;
+      --accent-soft: rgba(228, 107, 45, 0.12);
+      --success: #198b5f;
+      --warn: #9b6a18;
+      --error: #c94a32;
+      --shadow: 0 20px 40px rgba(34, 27, 20, 0.08);
+      --shadow-soft: 0 12px 24px rgba(34, 27, 20, 0.05);
+      --mono: "Consolas", "SFMono-Regular", "Courier New", monospace;
+      --sans: "Aptos", "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      --serif: "Baskerville", "Iowan Old Style", "Times New Roman", "Songti SC", "STSong", serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+    }
+
+    body {
+      position: relative;
+      color: var(--ink);
+      padding: 18px 14px 22px;
+      font-family: var(--sans);
+      background:
+        radial-gradient(circle at top left, rgba(255, 255, 255, 0.6), transparent 28%),
+        linear-gradient(180deg, #f3f1ea 0%, #ece9e1 100%);
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    body::before {
+      background-image:
+        linear-gradient(rgba(17, 15, 11, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 15, 11, 0.05) 1px, transparent 1px);
+      background-size: 36px 36px;
+      mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.8), transparent 96%);
+    }
+
+    body::after {
+      background:
+        radial-gradient(circle at 84% 14%, rgba(228, 107, 45, 0.08), transparent 18%),
+        radial-gradient(circle at 18% 12%, rgba(17, 15, 11, 0.06), transparent 26%);
+    }
+
+    .shell {
+      position: relative;
+      z-index: 1;
+      max-width: 438px;
+      margin: 0 auto;
+    }
+
+    .shell-editorial {
+      display: grid;
+      gap: 12px;
+    }
+
+    .masthead {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(17, 15, 11, 0.1);
+    }
+
+    .brand-lockup {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      width: 24px;
+      height: 24px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      color: var(--accent);
+      border: 1px solid rgba(228, 107, 45, 0.22);
+      background: rgba(255, 255, 255, 0.64);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .brand-text {
+      min-width: 0;
+    }
+
+    .brand-name {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .brand-sub {
+      margin-top: 2px;
+      color: var(--ink-faint);
+      font-size: 10px;
+      letter-spacing: 0.04em;
+    }
+
+    .masthead-pill {
+      flex: 0 0 auto;
+      padding: 7px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(17, 15, 11, 0.1);
+      background: rgba(255, 255, 255, 0.62);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .hero {
+      position: relative;
+      padding: 18px 18px 16px;
+      border: 1px solid var(--line);
+      border-radius: 26px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.66), rgba(255, 255, 255, 0.38));
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: "sylphiette269";
+      position: absolute;
+      right: 18px;
+      bottom: 14px;
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      color: rgba(134, 129, 118, 0.82);
+      opacity: 0.33;
+      pointer-events: none;
+    }
+
+    .hero-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--ink-faint);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .hero-kicker::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 0 4px rgba(228, 107, 45, 0.12);
+    }
+
+    .editorial-title {
+      margin: 0;
+      font-family: var(--serif);
+      font-size: 42px;
+      line-height: 0.92;
+      font-weight: 400;
+      letter-spacing: -0.04em;
+      max-width: 280px;
+    }
+
+    .hero-summary {
+      margin: 14px 0 0;
+      max-width: 325px;
+      color: var(--ink-soft);
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    .signal-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 30px;
+      padding: 0 10px;
+      border-radius: 14px;
+      border: 1px solid rgba(17, 15, 11, 0.1);
+      background: rgba(255, 255, 255, 0.68);
+      box-shadow: var(--shadow-soft);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+    }
+
+    .tag::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: currentColor;
+      opacity: 0.8;
+    }
+
+    .t-o {
+      color: var(--accent);
+      background: rgba(255, 246, 240, 0.82);
+    }
+
+    .t-p {
+      font-family: var(--mono);
+      letter-spacing: 0.02em;
+      text-transform: none;
+      color: var(--ink);
+    }
+
+    .t-g {
+      color: var(--success);
+      background: rgba(242, 251, 247, 0.84);
+    }
+
+    .module {
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      overflow: hidden;
+    }
+
+    .module-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 16px 0;
+    }
+
+    .module-head h2 {
+      margin: 0;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      font-weight: 700;
+    }
+
+    .module-badge {
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(17, 15, 11, 0.1);
+      background: rgba(255, 255, 255, 0.7);
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--ink-faint);
+      white-space: nowrap;
+    }
+
+    .module-body {
+      padding: 12px 16px 16px;
+    }
+
+    .status-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .status-cell {
+      position: relative;
+      min-height: 96px;
+      padding: 14px 12px 12px;
+      border-radius: 18px;
+      border: 1px solid rgba(17, 15, 11, 0.08);
+      background: rgba(255, 255, 255, 0.72);
+    }
+
+    .status-lbl {
+      margin-bottom: 12px;
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--ink-faint);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .status-val {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      flex: 0 0 auto;
+    }
+
+    .dot.on {
+      background: var(--success);
+      box-shadow: 0 0 0 6px rgba(25, 139, 95, 0.12);
+    }
+
+    .dot.off {
+      background: var(--error);
+      box-shadow: 0 0 0 6px rgba(201, 74, 50, 0.1);
+    }
+
+    .status-txt {
+      min-width: 0;
+      font-size: 14px;
+      line-height: 1.35;
+      word-break: break-word;
+    }
+
+    .note {
+      margin-top: 10px;
+      color: var(--ink-soft);
+      font-size: 11px;
+      line-height: 1.6;
+    }
+
+    .field-stack {
+      display: grid;
+      gap: 9px;
+    }
+
+    .path-input {
+      width: 100%;
+      min-height: 46px;
+      padding: 11px 13px;
+      border: 1px solid rgba(17, 15, 11, 0.12);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.82);
+      color: var(--ink);
+      outline: none;
+      font-family: var(--mono);
+      font-size: 12px;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
+    }
+
+    .path-input::placeholder {
+      color: rgba(79, 75, 67, 0.65);
+    }
+
+    .btn-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    button {
+      appearance: none;
+      min-height: 42px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(17, 15, 11, 0.12);
+      background: rgba(255, 255, 255, 0.75);
+      color: var(--ink);
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+      box-shadow: var(--shadow-soft);
+    }
+
+    button:hover:enabled {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 24px rgba(34, 27, 20, 0.1);
+    }
+
+    button:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .btn-p {
+      background: #11100d;
+      color: #f8f5ee;
+      border-color: #11100d;
+    }
+
+    .btn-v {
+      background: rgba(255, 255, 255, 0.84);
+    }
+
+    .btn-g {
+      background: rgba(242, 239, 231, 0.96);
+      color: var(--ink-soft);
+    }
+
+    .console-shell {
+      position: relative;
+      border: 1px solid rgba(17, 15, 11, 0.12);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.72);
+      overflow: hidden;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
+    }
+
+    .console-shell::before {
+      content: "";
+      display: block;
+      height: 34px;
+      border-bottom: 1px solid rgba(17, 15, 11, 0.08);
+      background:
+        radial-gradient(circle at 18px 17px, rgba(201, 74, 50, 0.55) 0 4px, transparent 4px),
+        radial-gradient(circle at 34px 17px, rgba(155, 106, 24, 0.45) 0 4px, transparent 4px),
+        radial-gradient(circle at 50px 17px, rgba(25, 139, 95, 0.45) 0 4px, transparent 4px);
+    }
+
+    .console-meta {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 12px 0;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+    }
+
+    .console-meta::before {
+      content: ">";
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .queue-box,
+    .log-box {
+      padding: 10px 12px 12px;
+      max-height: 190px;
+      overflow-y: auto;
+    }
+
+    .q-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 10px 0;
+      border-bottom: 1px dashed rgba(17, 15, 11, 0.1);
+    }
+
+    .q-item:last-child {
+      border-bottom: 0;
+      padding-bottom: 2px;
+    }
+
+    .q-lbl {
+      flex: 1 1 auto;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--ink-soft);
+    }
+
+    .q-chip {
+      flex: 0 0 auto;
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      border: 1px solid transparent;
+    }
+
+    .chip-w {
+      color: var(--warn);
+      background: rgba(155, 106, 24, 0.08);
+      border-color: rgba(155, 106, 24, 0.16);
+    }
+
+    .chip-r {
+      color: var(--accent);
+      background: rgba(228, 107, 45, 0.08);
+      border-color: rgba(228, 107, 45, 0.16);
+    }
+
+    .chip-d {
+      color: var(--success);
+      background: rgba(25, 139, 95, 0.08);
+      border-color: rgba(25, 139, 95, 0.16);
+    }
+
+    .chip-f {
+      color: var(--error);
+      background: rgba(201, 74, 50, 0.08);
+      border-color: rgba(201, 74, 50, 0.16);
+    }
+
+    .log-line {
+      margin-bottom: 8px;
+      padding: 9px 10px;
+      border-radius: 14px;
+      font-family: var(--mono);
+      font-size: 10.5px;
+      line-height: 1.6;
+      color: var(--ink-soft);
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(17, 15, 11, 0.08);
+      word-break: break-all;
+    }
+
+    .log-line:last-child {
+      margin-bottom: 0;
+    }
+
+    .log-line.info {
+      border-left: 3px solid rgba(17, 15, 11, 0.22);
+    }
+
+    .log-line.warning {
+      border-left: 3px solid rgba(155, 106, 24, 0.55);
+      color: #73561d;
+    }
+
+    .log-line.error {
+      border-left: 3px solid rgba(201, 74, 50, 0.6);
+      color: #8f3526;
+    }
+
+    .footer {
+      padding-top: 2px;
+      text-align: center;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+    }
+
+    .footer-signature {
+      margin-left: 6px;
+      font-size: 9px;
+      letter-spacing: 0.05em;
+      text-transform: none;
+      opacity: 0.42;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    @media (max-width: 360px) {
+      body {
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+
+      .editorial-title {
+        font-size: 36px;
+      }
+
+      .status-grid,
+      .btn-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell shell-editorial">
+    <header class="masthead">
+      <div class="brand-lockup">
+        <div class="brand-mark">✳</div>
+        <div class="brand-text">
+          <div class="brand-name">PR MCP</div>
+          <div class="brand-sub">Premiere 自动化控制面板</div>
+        </div>
+      </div>
+      <div class="masthead-pill">面板</div>
+    </header>
+
+    <section class="hero">
+      <div class="hero-kicker">命令桥接 / 编辑运行时</div>
+      <h1 class="editorial-title">先想镜头，<br>再下指令。</h1>
+      <p class="hero-summary">
+        在 Premiere Pro 内维持一块轻量控制面板，用文件桥接和 MCP 客户端通信，
+        负责连接状态、项目打开、路径同步、命令队列和活动日志。
+      </p>
+      <div class="signal-strip">
+        <span class="tag t-o" id="tagMode">CEP 运行时</span>
+        <span class="tag t-p" id="tagDir">C:/pr-mcp-cmd</span>
+        <span class="tag t-g">实时队列</span>
+      </div>
+    </section>
+
+    <section class="module">
+      <div class="module-head">
+        <h2>连接状态</h2>
+        <span class="module-badge" id="statusBadge">初始化中</span>
+      </div>
+      <div class="module-body">
+        <div class="status-grid">
+          <div class="status-cell">
+            <div class="status-lbl">Bridge Service</div>
+            <div class="status-val">
+              <div class="dot off" id="bridgeStatusDot"></div>
+              <span class="status-txt" id="bridgeStatusText">未启动</span>
+            </div>
+          </div>
+          <div class="status-cell">
+            <div class="status-lbl">Premiere Pro</div>
+            <div class="status-val">
+              <div class="dot off" id="premiereStatusDot"></div>
+              <span class="status-txt" id="premiereStatusText">等待检测</span>
+            </div>
+          </div>
+        </div>
+        <div class="note" id="statusSubtitle">
+          当前状态会根据桥接轮询和 Premiere 返回结果持续刷新。
+        </div>
+      </div>
+    </section>
+
+    <section class="module">
+      <div class="module-head">
+        <h2>桥接目录</h2>
+        <span class="module-badge">共享临时路径</span>
+      </div>
+      <div class="module-body">
+        <div class="field-stack">
+          <input id="inputBridgeDir" class="path-input" type="text" placeholder="C:/pr-mcp-cmd">
+          <button class="btn-v" onclick="panelUiSaveConfig()">保存桥接目录</button>
+        </div>
+        <div class="note">
+          这里的目录必须和 MCP 客户端使用的 `PREMIERE_TEMP_DIR` 完全一致，修改后需要重新加载面板。
+        </div>
+      </div>
+    </section>
+
+    <section class="module">
+      <div class="module-head">
+        <h2>项目面板</h2>
+        <span class="module-badge">选择 / 打开</span>
+      </div>
+      <div class="module-body">
+        <div class="field-stack">
+          <input id="projectPathInput" class="path-input" type="text" placeholder="选择 .prproj 项目文件" readonly>
+          <input id="projectFileInput" type="file" accept=".prproj" style="display:none" onchange="panelUiOnFileChosen(this)">
+          <div class="btn-grid">
+            <button class="btn-v" onclick="panelUiChooseProject()">选择项目</button>
+            <button class="btn-p" onclick="panelUiOpenProject()">打开项目</button>
+          </div>
+        </div>
+        <div class="note">
+          该操作直接调用 Premiere 的项目打开能力，不经过 MCP 命令队列。
+        </div>
+      </div>
+    </section>
+
+    <section class="module">
+      <div class="module-head">
+        <h2>操作面板</h2>
+        <span class="module-badge">启动 / 停止 / 测试</span>
+      </div>
+      <div class="module-body">
+        <div class="btn-grid">
+          <button class="btn-p" id="btnStart" onclick="panelUiStartBridge()">启动桥接</button>
+          <button class="btn-g" id="btnStop" onclick="panelUiStopBridge()" disabled>停止桥接</button>
+          <button class="btn-v" onclick="panelUiTestConnection()">测试连接</button>
+          <button class="btn-g" onclick="panelUiClearLog()">清空日志</button>
+        </div>
+        <div class="note">
+          停止后隐藏扩展不再继续消费命令文件，适合做目录切换或故障排查。
+        </div>
+      </div>
+    </section>
+
+    <section class="module">
+      <div class="module-head">
+        <h2>命令队列</h2>
+        <span class="module-badge">最近任务</span>
+      </div>
+      <div class="module-body">
+        <div class="console-shell">
+          <div class="console-meta">队列快照</div>
+          <div class="queue-box" id="commandQueue">
+            <div class="q-item"><span class="q-lbl">暂无命令</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="module" id="pluginModule">
+      <div class="module-head">
+        <h2>插件管理器</h2>
+        <span class="module-badge" id="pluginCount">加载中</span>
+      </div>
+      <div class="module-body">
+        <div id="pluginList" style="display:grid;gap:8px;"></div>
+        <div class="note" style="margin-top:12px;">
+          第三方插件通过 <code>plugin_register</code> MCP 工具注册，AI 可通过 <code>plugin_call</code> 调用已启用插件的方法。
+        </div>
+      </div>
+    </section>
+
+    <section class="module">
+      <div class="module-head">
+        <h2>活动日志</h2>
+        <span class="module-badge">运行轨迹</span>
+      </div>
+      <div class="module-body">
+        <div class="console-shell">
+          <div class="console-meta">桥接输出</div>
+          <div class="log-box" id="logContainer">
+            <div class="log-line info">PR MCP 面板已加载。</div>
+            <div class="log-line info">桥接初始化中...</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="footer">PR MCP CEP 面板<span class="footer-signature">sylphiette269</span></div>
+  </div>
+
+  <div id="status" class="sr-only" aria-live="polite"></div>
+
+  <script src="js/CSInterface.js"></script>
+  <script src="js/bridge-config.js"></script>
+  <script src="js/bridge-ui.js"></script>
+  <script src="js/plugin-registry.js"></script>
+  <script src="js/panel-core.js"></script>
+  <script src="js/panel-scripts.js"></script>
+  <script src="js/panel-runtime.js"></script>
+  <script src="js/panel.js?v=20260311split1"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+    if (typeof pluginRegistryUI !== "undefined") pluginRegistryUI.start();
+  });</script>
+</body>
+</html>
