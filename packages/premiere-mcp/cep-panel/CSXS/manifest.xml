@@ -3,7 +3,7 @@
   Version="5.0"
   ExtensionBundleId="com.pr.mcp.panel"
   ExtensionBundleVersion="1.1.0"
-  ExtensionBundleName="PR MCP Panel">
+  ExtensionBundleName="premiere-ai-agent Panel">
   <ExtensionList>
     <Extension Id="com.pr.mcp.panel.main" Version="1.1.0"/>
     <Extension Id="com.pr.mcp.panel.hidden" Version="1.1.0"/>
@@ -34,7 +34,7 @@
         </Lifecycle>
         <UI>
           <Type>Panel</Type>
-          <Menu>PR MCP</Menu>
+          <Menu>premiere-ai-agent</Menu>
           <Geometry>
             <Size>
               <Width>320</Width>
