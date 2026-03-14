@@ -2,7 +2,7 @@
 
 `premiere-mcp` 现在是 `Premiere AI Agent` monorepo 里的 Premiere 执行包，包含 MCP server、CEP 面板、bridge 协议、测试和安装脚本，主要用于让 `Claude Code` 或 `Codex` 通过 MCP 工具操控 Premiere Pro 做视频粗剪。
 
-> **English summary**: `premiere-mcp` is an MCP server that lets `Claude Code`, `Codex`, or other MCP-compatible clients drive Adobe Premiere Pro through a CEP bridge for rough-cut editing. It supports Word briefs, reference-video-driven planning, and prompt-driven workflows, but still requires manual review because keyframe, transition, and effect automation are not fully stable yet.
+> **English summary**: `premiere-mcp` is an MCP server that lets `Claude Code`, `Codex`, or other MCP-compatible clients drive Adobe Premiere Pro through a CEP bridge for rough-cut editing. It supports Word briefs, reference-video-driven planning, and prompt-driven workflows. Manual review is still recommended because fine keyframe animation is not ready for reliable automation yet, and effect parameter values can still behave oddly even when transitions and effect mounting work.
 >
 > **Quick start**: `npm install && npm run build && npm run install:cep` — then add the server to your MCP client config pointing to `dist/index.js` with env var `PREMIERE_TEMP_DIR` set to the bridge directory.
 
@@ -246,6 +246,7 @@ npm run cleanup:tmp -- --root "/path/to/project" --temp-root "%TEMP%" --bridge-d
 
 - 当前目标环境是 Windows + Premiere Pro（CEP 可用），不限定具体版本号
 - 当前能力面已经收敛到这一套运行时里，但真实执行仍依赖 Premiere 脚本 API 和 CEP 面板
+- 当前不要把这套能力理解成“AI 自动生成关键帧动画”或“自动拉曲线 / 调缓动”的成熟方案；这部分仍以辅助和人工调整为主
 - `import_media` 与高层素材装配工作流现在默认 `reference-only`，会返回 `copied: false` 或 `copyOperations: 0`
 - `assemble_product_spot` 与 `build_brand_spot_from_mogrt_and_assets` 现在只有在显式提供 `transitionName` 时才会加素材转场；未指定时不会自动回退到 `Cross Dissolve`
 - DOCX 转出的 Markdown 现在会额外写出“转场执行建议”，把关键帧缓动和素材转场分开

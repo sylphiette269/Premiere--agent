@@ -26,7 +26,10 @@ Important:
 
 - you should always give the AI the local material folder path
 - this project is for rough cuts, not reliable unattended finishing
-- keyframe adjustment, transitions, and effects are not fully stable yet
+- AI-generated keyframe animation and curve or easing editing are not reliable yet
+- keyframe-related outputs are better treated as manual adjustment guidance
+- transition insertion is usually workable now, especially when the transition is explicit
+- effects can often be applied automatically, but effect parameter values can still behave oddly
 
 For full details, use the Chinese README at [README.md](./README.md).
 
