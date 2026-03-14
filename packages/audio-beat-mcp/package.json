@@ -5,12 +5,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sylphiette269/premiere-mcp-for-claude-code-codex.git",
+    "url": "https://github.com/sylphiette269/premiere-ai-agent.git",
     "directory": "packages/audio-beat-mcp"
   },
-  "homepage": "https://github.com/sylphiette269/premiere-mcp-for-claude-code-codex/tree/main/packages/audio-beat-mcp",
+  "homepage": "https://github.com/sylphiette269/premiere-ai-agent/tree/main/packages/audio-beat-mcp",
   "bugs": {
-    "url": "https://github.com/sylphiette269/premiere-mcp-for-claude-code-codex/issues"
+    "url": "https://github.com/sylphiette269/premiere-ai-agent/issues"
   },
   "keywords": [
     "mcp",

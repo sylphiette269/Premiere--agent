@@ -1,6 +1,6 @@
 # Premiere AI Agent
 
-[![CI](https://github.com/sylphiette269/premiere-mcp-for-claude-code-codex/actions/workflows/ci.yml/badge.svg)](https://github.com/sylphiette269/premiere-mcp-for-claude-code-codex/actions/workflows/ci.yml)
+[![CI](https://github.com/sylphiette269/premiere-ai-agent/actions/workflows/ci.yml/badge.svg)](https://github.com/sylphiette269/premiere-ai-agent/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
 
 英文说明可见 [README.en.md](./README.en.md)。
