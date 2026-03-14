@@ -5,10 +5,12 @@ import path from "node:path";
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
 import test from "node:test";
+import { fileURLToPath } from "node:url";
 
 import JSZip from "jszip";
 
 const execFileAsync = promisify(execFile);
+const PACKAGE_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
 test("review-edit-reasonability script writes a markdown report", async () => {
   const root = await mkdtemp(path.join(os.tmpdir(), "premiere-review-script-"));
@@ -101,7 +103,7 @@ test("review-edit-reasonability script writes a markdown report", async () => {
       "alternate",
     ],
     {
-      cwd: path.join("e:", "作业1", "premiere-mcp"),
+      cwd: PACKAGE_ROOT,
     },
   );
 
