@@ -2,7 +2,7 @@
   "name": "premiere-agent-workspace",
   "version": "0.1.0",
   "private": true,
-  "description": "Monorepo for Premiere Agent, an AI video agent that orchestrates research, beat analysis, and Premiere Pro editing.",
+  "description": "MCP-driven Premiere Pro rough-cut agent for Claude Code or Codex using briefs, reference videos, prompts, and local material folders.",
   "license": "MIT",
   "repository": {
     "type": "git",

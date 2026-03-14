@@ -1,8 +1,8 @@
 ﻿# Premiere MCP for Premiere Pro + CEP
 
-`premiere-mcp` 现在是 `Premiere Agent` monorepo 里的 Premiere 执行包，包含 MCP server、CEP 面板、bridge 协议、测试和安装脚本。
+`premiere-mcp` 现在是 `Premiere Agent` monorepo 里的 Premiere 执行包，包含 MCP server、CEP 面板、bridge 协议、测试和安装脚本，主要用于让 `Claude Code` 或 `Codex` 通过 MCP 工具操控 Premiere Pro 做视频粗剪。
 
-> **English summary**: `premiere-mcp` is an MCP server that connects MCP-compatible clients to Adobe Premiere Pro via a CEP bridge. It exposes 128 tools, 13 resources, and 11 prompts for timeline editing, effects, color correction, keyframe animation, subtitle generation, and high-level assembly workflows. Requires Node >= 18, Adobe Premiere Pro with CEP enabled, and Windows.
+> **English summary**: `premiere-mcp` is an MCP server that lets `Claude Code`, `Codex`, or other MCP-compatible clients drive Adobe Premiere Pro through a CEP bridge for rough-cut editing. It supports Word briefs, reference-video-driven planning, and prompt-driven workflows, but still requires manual review because keyframe, transition, and effect automation are not fully stable yet.
 >
 > **Quick start**: `npm install && npm run build && npm run install:cep` — then add the server to your MCP client config pointing to `dist/index.js` with env var `PREMIERE_TEMP_DIR` set to the bridge directory.
 

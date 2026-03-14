@@ -2,18 +2,78 @@
 
 [English README](./README.md)
 
-`Premiere Agent` 是一个面向视频生产的 AI agent monorepo。
+`Premiere Agent` 是一个面向 `Claude Code` 和 `Codex` 的 Windows 优先
+monorepo，目标是通过 MCP 工具驱动 Adobe Premiere Pro，完成**视频粗剪**
+阶段的辅助制作。
 
-它的目标不是只暴露一堆 MCP 工具，而是把研究、节拍分析和 Premiere
-执行层组合成一条可理解、可追踪、可验证的闭环链路。
+它不是“自动成片神器”，而是把文档需求、参考视频、提示词和本地素材目录
+收口到一条可追踪的 Premiere 粗剪工作流里。
 
-## 它能做什么
+## 这个项目的作用
 
-- 接收一句用户目标，例如 `做一个 15 秒抖音风格产品视频`
-- 生成或加载统一的 `editing blueprint`
-- 按需分析 BGM，产出节拍驱动的剪辑计划
-- 在研究层、音频层和 Premiere 层之间做统一调度
-- 跑一轮 critic，并输出结构化报告与 checkpoint
+- 让 `Claude Code` 或 `Codex` 通过 MCP 工具读取和操控 Premiere Pro
+- 根据 Word 文档、参考视频或提示词，辅助完成视频粗剪
+- 结合本地素材目录做素材扫描、装配规划、节拍辅助和时间线执行
+- 输出可检查的 plan、checkpoint 和报告，方便人工复核
+
+## 支持的输入方式
+
+你可以用这三类方式驱动它：
+
+- 提供一个写明视频需求或剪辑步骤的 Word 文档
+- 提供一个参考视频，让系统先分析风格再生成蓝图
+- 直接给提示词，让 AI 先做粗剪规划
+
+无论走哪条路径，**都要把素材文件夹目录给 AI**。  
+如果没有素材目录，AI 不知道本地有哪些素材可用，也无法安全规划和导入。
+
+## 使用方式
+
+1. 把这个仓库对应的 MCP 服务接到 `Claude Code` 或 `Codex`
+2. 先告诉 AI 本地素材文件夹路径
+3. 再补充下面任意一种输入：
+   - `.docx` 需求文档
+   - 参考视频路径
+   - 直接提示词
+4. 让 AI 先扫描素材、生成计划，再调用 Premiere MCP 做粗剪
+5. 最后在 Premiere Pro 里人工检查并继续精修
+
+典型命令示例：
+
+```bash
+npm run agent:dev -- "做一个 15 秒产品视频粗剪" --asset "D:/你的素材目录"
+npm run agent:dev -- "按 Word 文档做粗剪" --docx "D:/brief/需求.docx" --manifest "D:/你的素材目录/media.json"
+npm run agent:dev -- "参考这个视频的节奏做粗剪" --editing-blueprint "D:/research/blueprint.json" --asset "D:/你的素材目录"
+```
+
+## 环境要求
+
+- Windows
+- Node.js 18+
+- Adobe Premiere Pro
+- 已启用 CEP
+- 已安装 `packages/premiere-mcp` 提供的 CEP 面板
+
+推荐初始化流程：
+
+```bash
+npm install
+npm run build
+npm test
+npm run agent:dev -- "做一个 15 秒产品视频粗剪" --asset "D:/你的素材目录"
+```
+
+## 当前未完全实现 / 不稳定的部分
+
+这个项目目前更适合“粗剪辅助”，不适合直接当作稳定的全自动精剪系统。
+
+- 关键帧动画调整还不够稳定，尤其是精细动画和重复修正场景
+- 转场插入仍依赖 Premiere 宿主行为和 QE DOM，不是所有转场都稳定
+- 特效应用和特效参数写入在不同工程状态下仍可能失败或漂移
+- 最终结果仍然需要在 Premiere Pro 里人工复核和继续调整
+
+如果你的目标是成片交付，当前应该把它理解为：
+**AI 帮你完成规划和粗剪，人再完成精修。**
 
 ## 仓库结构
 
@@ -29,41 +89,12 @@ repo-root/
 └── .github/workflows/ci.yml
 ```
 
-## 快速开始
+## 当前仓库状态
 
-```bash
-npm install
-npm run build
-npm test
-npm run agent:dev -- "做一个 15 秒抖音风格产品视频"
-```
-
-如果要真正执行 Premiere 步骤，还需要：
-
-- Windows
-- Node.js 18+
-- Adobe Premiere Pro
-- 已启用 CEP
-- 已安装 `packages/premiere-mcp` 提供的 CEP 面板
-
-## 运行示例
-
-```bash
-npm run scenario:product
-npm run scenario:music
-npm run scenario:research
-```
-
-## 当前状态
-
-当前仓库已经具备公开发布的基本形态：
-
-- monorepo 结构已经稳定
-- 根仓命令和 package 边界已经打通
-- CI 已配置
-- 根仓 `build` 和 `test` 可通过
-
-当前重点是把 agent 闭环做清楚，而不是做成云端 SaaS 或桌面一键安装器。
+- 根仓 build / test / CI 已打通
+- 已拆成 `premiere-mcp`、`audio-beat-mcp`、`video-research-mcp` 三层
+- 已有顶层 agent 编排入口
+- 当前主目标仍然是把“可检查的粗剪闭环”做稳，而不是做一键成片
 
 ## 协作与安全
 
