@@ -68,6 +68,98 @@
 - “按抖音快节奏方式做一个开箱粗剪”
 - “根据这批素材做一个带节拍感的竖屏粗剪”
 
+## 实际操作步骤
+
+下面这套流程，就是这个项目目前最适合公开展示和实际使用的方式。
+
+### 第 1 步：在 Claude Code 或 Codex 中接入 MCP
+
+- 启动本仓库提供的 MCP 服务
+- 在 `Claude Code` 或 `Codex` 中连接这个 MCP
+- 确认 AI 已经能调用 Premiere 相关工具，而不是只会输出文字建议
+
+### 第 2 步：告诉 AI 本地素材文件夹目录
+
+- 明确告诉 AI 你的素材目录路径
+- 素材目录里可以包含视频、图片、音频、字幕草稿等内容
+- 如果需要，也可以先生成或提供素材清单
+
+示例：
+
+```text
+素材目录在 D:/projects/product-video/assets
+请先扫描这个目录里的素材，再开始做粗剪规划
+```
+
+### 第 3 步：给 AI 剪辑输入
+
+你可以用下面三种输入方式里的任意一种：
+
+- Word 文档：适合已经整理好镜头说明、节奏、字幕和结构要求
+- 参考视频：适合希望 AI 参考某个视频的节奏、风格和结构
+- 提示词：适合快速说明“我要做一个什么样的视频”
+
+示例：
+
+```text
+按这个 Word 文档里的说明做一版粗剪
+参考这个视频的节奏做一版 15 秒产品视频
+根据这批素材做一个偏快节奏的竖屏开箱粗剪
+```
+
+### 第 4 步：让 AI 先规划，再执行 Premiere 粗剪
+
+- 先让 AI 扫描素材并生成粗剪计划
+- 再让 AI 调用 MCP 工具操控 Premiere Pro
+- 让它把素材放入时间线、做镜头装配、处理基础节奏和初版粗剪
+
+建议的指令方式：
+
+```text
+先扫描素材目录并给出粗剪计划，确认后再开始调用 Premiere 执行
+```
+
+### 第 5 步：人工复核结果并继续精修
+
+- 检查镜头顺序是否正确
+- 检查节奏是否符合预期
+- 检查字幕、转场、关键帧和特效是否需要手工调整
+- 在 Premiere Pro 中继续做人工精修
+
+这个项目当前最适合承担的是：
+
+- 粗剪
+- 初版装配
+- 节奏起草
+- 可检查的第一版时间线
+
+而不是直接替代人工完成最终精剪交付。
+
+## 首页截图建议
+
+如果你要在 GitHub 首页展示界面和操作过程，建议把图片放到 `docs/images/`，并按下面的名字准备：
+
+```text
+docs/images/
+├── mcp-tool-panel.png
+├── mcp-connect.png
+├── material-folder-input.png
+├── word-brief-example.png
+├── prompt-example.png
+├── premiere-rough-cut-result.png
+└── premiere-rough-cut-demo.gif
+```
+
+建议对应关系：
+
+- `mcp-tool-panel.png`：MCP 工具界面
+- `mcp-connect.png`：在 Claude Code 或 Codex 中接入 MCP
+- `material-folder-input.png`：输入素材文件夹目录
+- `word-brief-example.png`：Word 文档需求示例
+- `prompt-example.png`：提示词示例
+- `premiere-rough-cut-result.png`：Premiere 时间线或粗剪结果截图
+- `premiere-rough-cut-demo.gif`：完整操作演示动图
+
 ## 典型使用流程
 
 ```text
