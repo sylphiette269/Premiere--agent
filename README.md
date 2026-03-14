@@ -5,15 +5,17 @@
 
 英文说明可见 [README.en.md](./README.en.md)。
 
-`Premiere Agent` 这个angent是为了自动化重复性剪辑工作而创造的：
+`Premiere Agent` 不是泛泛的“AI 视频代理”项目。
 
-**让 `Claude Code` 或 `Codex` 通过 MCP 工具读取和操控 Adobe Premiere Pro，辅助完成视频粗剪。**
+它真正要做的是：
+
+**让 `Claude Code` 或 `Codex` 通过 MCP 工具读取和操控 Adobe Premiere Pro，结合 Word 文档、参考视频、提示词和本地素材目录，辅助完成视频粗剪。**
 
 它当前适合做的是：
 
 - 根据 Word 文档里的剪辑需求和剪辑说明，辅助完成 Premiere 粗剪
 - 根据参考视频分析风格、节奏和结构，再辅助生成粗剪结果
-- 根据直接提示词做视频整体模仿粗剪
+- 根据提示词规划镜头、节奏和时间线粗剪
 - 结合本地素材文件夹，扫描素材、规划镜头、生成粗剪步骤，并驱动 Premiere 执行
 
 它当前**不能**被理解成：
@@ -29,14 +31,14 @@
 1. **素材文件夹目录**
 2. 下面三种输入里的任意一种：
    - Word 文档：写明视频需求、镜头安排、剪辑说明
-   - 参考视频：上传参考视频给AI,让 AI 先分析风格再做粗剪
-   - 提示词：直接描述要做什么视频,最好描述清楚所需要的效果和要求
+   - 参考视频：把参考视频路径或文件交给 AI，让它先分析风格再做粗剪
+   - 提示词：直接描述要做什么视频，最好把效果和要求说清楚
 
 注意：
 
 **素材文件夹目录是必须给的。**
 
-如果不给素材目录，AI 不知道本地有哪些可用素材，也无法安全地扫描、规划和导入，还有可能出现误扫描，ai会优先扫描文件夹。
+如果不给素材目录，AI 不知道本地有哪些可用素材，也无法安全地扫描、规划和导入。这个项目的典型工作流就是先扫描素材文件夹，再决定怎么装配时间线。
 
 ## 支持的工作方式
 
@@ -53,7 +55,7 @@
 
 适合你想让 AI 模仿一个视频的大致风格和节奏。
 
-- 你给 AI 一个参考视频路径或者上传参考视频给ai分析
+- 你给 AI 一个参考视频路径，或者直接把参考视频文件交给 AI 分析
 - AI 先分析参考视频，提取蓝图或结构特征
 - 再结合你的素材目录做匹配和粗剪规划
 - 最后驱动 Premiere 执行
@@ -159,6 +161,32 @@ docs/images/
 - `prompt-example.png`：提示词示例
 - `premiere-rough-cut-result.png`：Premiere 时间线或粗剪结果截图
 - `premiere-rough-cut-demo.gif`：完整操作演示动图
+
+如果你已经把这些图片传到仓库里，可以直接在首页继续补下面这段：
+
+```md
+## MCP 工具界面
+
+<img src="./docs/images/mcp-tool-panel.png" alt="MCP 工具界面" width="960" />
+
+## 操作截图
+
+### 1. 接入 MCP
+<img src="./docs/images/mcp-connect.png" alt="在 Claude Code 或 Codex 中接入 MCP" width="960" />
+
+### 2. 提供素材目录
+<img src="./docs/images/material-folder-input.png" alt="提供素材文件夹目录" width="960" />
+
+### 3. Word 文档或提示词输入
+<img src="./docs/images/word-brief-example.png" alt="Word 文档示例" width="960" />
+<img src="./docs/images/prompt-example.png" alt="提示词示例" width="960" />
+
+### 4. Premiere 粗剪结果
+<img src="./docs/images/premiere-rough-cut-result.png" alt="Premiere 粗剪结果" width="960" />
+
+### 5. 动图演示
+<img src="./docs/images/premiere-rough-cut-demo.gif" alt="Premiere 粗剪演示" width="960" />
+```
 
 ## 典型使用流程
 
