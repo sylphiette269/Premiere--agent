@@ -41,5 +41,6 @@ Implementation note:
 Parts of the bridge and MCP integration work in this project reference selected
 ideas and content from
 [`Adobe_Premiere_Pro_MCP`](https://github.com/hetpatel-11/Adobe_Premiere_Pro_MCP),
-while the current workflow, repo structure, and rough-cut-oriented setup are
+and I appreciate the original author for publishing that work openly. The
+current workflow, repo structure, and rough-cut-oriented setup are still
 organized for this repository's own goals.

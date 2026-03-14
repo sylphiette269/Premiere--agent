@@ -11,8 +11,9 @@ content from:
   - Repository: <https://github.com/hetpatel-11/Adobe_Premiere_Pro_MCP>
   - License: MIT
 
-This package is organized around its own runtime shape, CEP bridge, test suite,
-workflow design, and project-specific tooling.
+Thanks to the original author for making that work public. This package is
+organized around its own runtime shape, CEP bridge, test suite, workflow
+design, and project-specific tooling.
 
 ## Third-Party Runtime Files
 

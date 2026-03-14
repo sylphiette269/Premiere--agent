@@ -34,11 +34,24 @@ test("index.html loads bridge-config.js and bridge-ui.js before panel.js", async
 
   assert.match(
     html,
-    /<script src="js\/bridge-config\.js"><\/script>\s*<script src="js\/bridge-ui\.js"><\/script>\s*<script src="js\/plugin-registry\.js"><\/script>\s*<script src="js\/panel-core\.js"><\/script>\s*<script src="js\/panel-scripts\.js"><\/script>\s*<script src="js\/panel-runtime\.js"><\/script>\s*<script src="js\/panel\.js\?v=/,
+    /<script src="js\/bridge-config\.js"><\/script>\s*<script src="js\/bridge-ui\.js"><\/script>\s*<script src="js\/panel-core\.js"><\/script>\s*<script src="js\/panel-scripts\.js"><\/script>\s*<script src="js\/panel-runtime\.js"><\/script>\s*<script src="js\/panel\.js\?v=/,
   );
   assert.equal(
     existsSync(path.join(process.cwd(), "cep-panel", "js", "bridge-config.js")),
     true,
+  );
+});
+
+test("index.html no longer loads the removed plugin registry UI script", async () => {
+  const html = await readFile(
+    path.join(process.cwd(), "cep-panel", "index.html"),
+    "utf8",
+  );
+
+  assert.doesNotMatch(html, /<script src="js\/plugin-registry\.js"><\/script>/);
+  assert.equal(
+    existsSync(path.join(process.cwd(), "cep-panel", "js", "plugin-registry.js")),
+    false,
   );
 });
 
