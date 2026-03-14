@@ -11,14 +11,42 @@
 
 **让 `Claude Code` 或 `Codex` 通过 MCP 工具读取和操控 Adobe Premiere Pro，结合 Word 文档、参考视频、提示词和本地素材目录，辅助完成视频粗剪。**
 
-它当前适合做的是：
+## 参考来源
+
+这个仓库在整体方向、桥接思路和 MCP 接入形态上，参考了
+[`Adobe_Premiere_Pro_MCP`](https://github.com/hetpatel-11/Adobe_Premiere_Pro_MCP)。
+
+如果你看过那个项目，可以把当前仓库理解成它的一个继续演进版本，但目标更聚焦：
+
+- 目标环境改成了 **Windows-first**
+- 客户端重点改成了 **Claude Code / Codex**
+- 工作流重点改成了 **视频粗剪**，不是泛化的 Premiere 全能自动化
+- 额外加了 `audio-beat-mcp`、`video-research-mcp` 和顶层 `agent/` 编排层
+- 输入方式围绕 **Word 文档、参考视频、提示词、本地素材目录** 四类信息组织
+
+## 当前状态
+
+当前仓库公开可用的基线是：
+
+- Windows
+- Node.js 18+
+- Adobe Premiere Pro + CEP 面板
+- 根仓 `npm run build` / `npm test`
+- GitHub Actions CI
+
+当前定位也很明确：
+
+- 适合做粗剪、初版装配、节奏规划、素材筛选
+- 不适合直接承诺无人值守最终成片
+
+## 你能用它做什么
 
 - 根据 Word 文档里的剪辑需求和剪辑说明，辅助完成 Premiere 粗剪
 - 根据参考视频分析风格、节奏和结构，再辅助生成粗剪结果
 - 根据提示词规划镜头、节奏和时间线粗剪
 - 结合本地素材文件夹，扫描素材、规划镜头、生成粗剪步骤，并驱动 Premiere 执行
 
-它当前**不能**被理解成：
+## 这个项目不是什么
 
 - 全自动一键成片系统
 - 稳定可靠的精剪系统
@@ -136,6 +164,70 @@
 - 可检查的第一版时间线
 
 而不是直接替代人工完成最终精剪交付。
+
+## 按客户端接入
+
+这部分写法参考了 `Adobe_Premiere_Pro_MCP` 的 README 结构，但命令和路径已经换成了你当前仓库真实可用的版本。
+
+### 1. 先准备本仓库
+
+在仓库根目录执行：
+
+```bash
+npm install
+npm run build
+npm test
+```
+
+然后安装 Premiere CEP 面板：
+
+```bash
+cd packages/premiere-mcp
+npm run install:cep
+```
+
+### 2. 在 Premiere 里启动桥接面板
+
+1. 打开 Premiere Pro，并打开一个项目
+2. 打开 `Window > Extensions > PR MCP`
+3. 确认桥接目录是 `C:/pr-mcp-cmd`
+4. 点击 `保存桥接目录`
+5. 点击 `启动桥接`
+6. 点击 `测试连接`
+
+Node 侧和 CEP 面板侧必须指向同一个桥接目录，否则 MCP 能看到工具，但实际调用会失败。
+
+### 3. 接入 Codex
+
+先确保 MCP server 的入口已经构建出来：
+
+```text
+packages/premiere-mcp/dist/index.js
+```
+
+然后可以按类似下面的方式注册：
+
+```bash
+codex mcp add premiere_pro --env PREMIERE_TEMP_DIR=C:/pr-mcp-cmd -- node D:/path/to/premiere-mcp-for-claude-code-codex/packages/premiere-mcp/dist/index.js
+```
+
+### 4. 接入 Claude Code
+
+在 Claude Code 的 MCP 配置里，核心就是这两个值：
+
+```text
+command: node D:/path/to/premiere-mcp-for-claude-code-codex/packages/premiere-mcp/dist/index.js
+env: PREMIERE_TEMP_DIR=C:/pr-mcp-cmd
+```
+
+### 5. 其他 MCP 客户端
+
+其他 MCP 客户端也一样：
+
+- 命令指向 `packages/premiere-mcp/dist/index.js`
+- 环境变量指向 `PREMIERE_TEMP_DIR=C:/pr-mcp-cmd`
+- 客户端改完配置后要重启
+- Premiere 里的 `PR MCP` 面板也要保持启动
 
 ## 首页截图建议
 
