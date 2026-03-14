@@ -4,14 +4,15 @@ This package is the Premiere execution layer inside the `premiere-ai-agent` mono
 
 ## Reference Project
 
-Parts of the later bridge and MCP integration work were informed by:
+Some bridge and MCP integration details in this package reference selected
+content from:
 
 - `Adobe_Premiere_Pro_MCP`
   - Repository: <https://github.com/hetpatel-11/Adobe_Premiere_Pro_MCP>
   - License: MIT
 
-This package later evolved around its own runtime, workflow shape, CEP bridge,
-test suite, and project-specific tooling.
+This package is organized around its own runtime shape, CEP bridge, test suite,
+workflow design, and project-specific tooling.
 
 ## Third-Party Runtime Files
 

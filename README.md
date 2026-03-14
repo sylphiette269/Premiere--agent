@@ -376,3 +376,9 @@ npm test
 - 快速开始见 [QUICKSTART.md](./QUICKSTART.md)
 - 已知限制见 [KNOWN_ISSUES.md](./KNOWN_ISSUES.md)
 - 项目 skills 说明见 [SKILLS.md](./SKILLS.md)
+
+## 说明
+
+本项目在部分 bridge 和 MCP 集成实现上参考了
+[`Adobe_Premiere_Pro_MCP`](https://github.com/hetpatel-11/Adobe_Premiere_Pro_MCP)
+中的部分内容，但当前仓库的整体工作流、项目结构和面向粗剪的能力组织，都是围绕本项目自身目标整理和实现的。

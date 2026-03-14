@@ -30,3 +30,11 @@ Additional docs:
 - Quick start: [QUICKSTART.md](./QUICKSTART.md)
 - Known issues: [KNOWN_ISSUES.md](./KNOWN_ISSUES.md)
 - Project skills: [SKILLS.md](./SKILLS.md)
+
+Implementation note:
+
+Parts of the bridge and MCP integration work in this project reference selected
+ideas and content from
+[`Adobe_Premiere_Pro_MCP`](https://github.com/hetpatel-11/Adobe_Premiere_Pro_MCP),
+while the current workflow, repo structure, and rough-cut-oriented setup are
+organized for this repository's own goals.
