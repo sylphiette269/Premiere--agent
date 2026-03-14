@@ -655,14 +655,14 @@ function agentGuideResource(): Record<string, unknown> {
       ],
     },
     agentCompatibility: {
-      claudeCode: [
+      structuredClients: [
         'Use resources and prompts first, then call structured tools with exact JSON arguments.',
         'After each write, prefer an explicit read-back tool instead of assuming success from a message string.',
         'For `add_keyframe`, pass time in seconds relative to the clip start, not absolute sequence time.',
         'For slide or Motion.Position plans, prefer passing a real `clipId` to `apply_keyframe_animation` or `apply_animation_preset` so the server can resolve the clip sequence frame size before converting pixels.',
         'For still image motion work, verify whether a high-level animation write landed on Transform fallback instead of intrinsic Motion; low-level add_keyframe will keep the requested component unless you target Transform explicitly.',
       ],
-      codex: [
+      iterativeClients: [
         'Prefer the same structured low-level tools and keep write calls narrow and verifiable.',
         'When the request mentions Continuous Bezier, explicitly note the current bezier-mode fallback instead of claiming full curve-handle support.',
         'When a still image animation is stubborn, surface the manual Nest or Render and Replace fallback instead of repeating the same intrinsic Motion write.',

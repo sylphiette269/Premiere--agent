@@ -29,7 +29,7 @@
   "scripts": {
     "build": "npm run build:packages && tsc -p tsconfig.json",
     "build:packages": "npm run build --workspace packages/audio-beat-mcp --workspace packages/video-research-mcp --workspace packages/premiere-mcp",
-    "test": "npm run test:packages && node --test --import tsx test/**/*.test.ts",
+    "test": "npm run test:packages && node scripts/run-node-tests.mjs test",
     "test:packages": "npm run test --workspace packages/audio-beat-mcp --workspace packages/video-research-mcp --workspace packages/premiere-mcp",
     "agent": "node dist/cli/index.js",
     "agent:dev": "node --import tsx cli/index.ts",

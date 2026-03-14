@@ -15,8 +15,7 @@
 以下事实变化时，需要同步更新：
 
 - `packages/premiere-mcp/README.md`
-- `packages/premiere-mcp/CLAUDE.md`
-- `packages/premiere-mcp/AGENTS.md`
+- 根目录 `CONTRIBUTING.md`
 - 根目录 `README.md`
 
 同步规则：

@@ -27,7 +27,7 @@
     "build": "tsc -p tsconfig.json",
     "start": "node dist/index.js",
     "test": "npm run test:node && npm run test:jest",
-    "test:node": "node --test --import tsx test/**/*.test.ts",
+    "test:node": "node ../../scripts/run-node-tests.mjs test",
     "test:jest": "jest --runInBand",
     "install:cep": "node scripts/install-cep-panel.mjs",
     "convert:docx": "node --import tsx scripts/convert-docx-to-premiere-markdown.mjs",

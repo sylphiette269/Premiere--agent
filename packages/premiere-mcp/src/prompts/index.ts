@@ -292,7 +292,7 @@ function buildAgentWorkflow(objective: string, sequenceName: string, deliveryTar
         ],
       },
     ],
-    'Use this playbook for both Claude Code and Codex sessions so the MCP is driven through explicit, verifiable steps.',
+    'Use this playbook in structured agent clients so the MCP is driven through explicit, verifiable steps.',
   );
 }
 

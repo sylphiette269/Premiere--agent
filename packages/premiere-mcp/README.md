@@ -1,8 +1,8 @@
 ﻿# Premiere MCP for Premiere Pro + CEP
 
-`premiere-mcp` 现在是 `video-agent` monorepo 里的 Premiere 执行包，包含 MCP server、CEP 面板、bridge 协议、测试和安装脚本。
+`premiere-mcp` 现在是 `Premiere Agent` monorepo 里的 Premiere 执行包，包含 MCP server、CEP 面板、bridge 协议、测试和安装脚本。
 
-> **English summary**: `premiere-mcp` is an MCP server that connects AI assistants (Claude, Cursor, etc.) to Adobe Premiere Pro via a CEP bridge. It exposes 128 tools, 13 resources, and 11 prompts for timeline editing, effects, color correction, keyframe animation, subtitle generation, and high-level assembly workflows. Requires Node ≥ 18, Adobe Premiere Pro with CEP enabled, and Windows.
+> **English summary**: `premiere-mcp` is an MCP server that connects MCP-compatible clients to Adobe Premiere Pro via a CEP bridge. It exposes 128 tools, 13 resources, and 11 prompts for timeline editing, effects, color correction, keyframe animation, subtitle generation, and high-level assembly workflows. Requires Node >= 18, Adobe Premiere Pro with CEP enabled, and Windows.
 >
 > **Quick start**: `npm install && npm run build && npm run install:cep` — then add the server to your MCP client config pointing to `dist/index.js` with env var `PREMIERE_TEMP_DIR` set to the bridge directory.
 
@@ -250,44 +250,6 @@ npm run cleanup:tmp -- --root "/path/to/project" --temp-root "%TEMP%" --bridge-d
 
 - `test/`：Node test runner，覆盖 CEP 面板脚本、安装脚本、stdio surface
 - `src/__tests__/`：Jest，覆盖 migrated bridge/tools/resources/prompts
-
-## 仓库内本地 Skills
-
-这些 skills 现在位于 monorepo 根目录 `.codex/skills/`，不依赖全局目录：
-
-- `premiere-reference-migration`
-- `premiere-bridge-verification`
-- `premiere-doc-sync`
-- `premiere-docx-visual-ingest`
-- `premiere-docx-markdown-normalization`
-- `premiere-reference-only-media`
-- `premiere-transition-mapping`
-- `premiere-skill-first-iteration`
-- `premiere-edit-reasonability-review`
-- `premiere-assembly-planning`
-- `premiere-guide-effect-planning`
-- `premiere-keyframe-language-mapping`
-- `premiere-timeline-conformance-review`
-- `premiere-reference-video-replication`
-- `premiere-natural-language-edit-planning`
-
-它们分别用于：
-
-- 历史能力收敛与结构迁移
-- bridge 目录与协议验证
-- README / roadmap / vision / skills 文档同步
-- Word 图文教程提取
-- DOCX 到 Markdown 的中间层规范
-- 素材目录扫描与 reference-only 导入约束
-- 文档转场语义与高层 workflow 映射
-- 复杂问题先写项目级 skill 再改 MCP
-- 自动时间线的合理性审查
-- 关键帧自然语言到执行链映射
-- 从 DOCX + 素材清单生成可执行的装配计划
-- 把文档中的效果名和复制逻辑沉淀成 `effectPlan`
-- 自动装配后对主视频轨做 clip 数量、顺序和连续性复核
-- 本地参考视频分析、素材匹配和装配后比对
-- 直接需求到确定性装配参数的解析与规划
 
 ## 条件与限制
 

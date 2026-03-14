@@ -3,9 +3,9 @@ dist/
 coverage/
 artifacts/
 
-.codex/*
-!.codex/skills/
-!.codex/skills/**
+.codex/
+**/AGENTS.md
+**/CLAUDE.md
 
 *.log
 *.tmp
