@@ -5,12 +5,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sylphiette269/premiere-ai-agent.git",
+    "url": "https://github.com/sylphiette269/premiere-mcp-editor-cn.git",
     "directory": "packages/audio-beat-mcp"
   },
-  "homepage": "https://github.com/sylphiette269/premiere-ai-agent/tree/main/packages/audio-beat-mcp",
+  "homepage": "https://github.com/sylphiette269/premiere-mcp-editor-cn/tree/main/packages/audio-beat-mcp",
   "bugs": {
-    "url": "https://github.com/sylphiette269/premiere-ai-agent/issues"
+    "url": "https://github.com/sylphiette269/premiere-mcp-editor-cn/issues"
   },
   "keywords": [
     "mcp",

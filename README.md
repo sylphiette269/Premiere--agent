@@ -1,6 +1,6 @@
-# Premiere MCP 剪辑助手（premiere-ai-agent）
+# Premiere MCP 剪辑助手（premiere-mcp-editor-cn）
 
-[![CI](https://github.com/sylphiette269/premiere-ai-agent/actions/workflows/ci.yml/badge.svg)](https://github.com/sylphiette269/premiere-ai-agent/actions/workflows/ci.yml)
+[![CI](https://github.com/sylphiette269/premiere-mcp-editor-cn/actions/workflows/ci.yml/badge.svg)](https://github.com/sylphiette269/premiere-mcp-editor-cn/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
 
 英文说明可见 [README.en.md](./README.en.md)。
@@ -239,7 +239,7 @@ packages/premiere-mcp/dist/index.js
 然后可以按类似下面的方式注册：
 
 ```bash
-codex mcp add premiere_pro --env PREMIERE_TEMP_DIR=C:/pr-mcp-cmd -- node D:/path/to/premiere-ai-agent/packages/premiere-mcp/dist/index.js
+codex mcp add premiere_pro --env PREMIERE_TEMP_DIR=C:/pr-mcp-cmd -- node D:/path/to/premiere-mcp-editor-cn/packages/premiere-mcp/dist/index.js
 ```
 
 ### 4. 接入 Claude Code
@@ -247,7 +247,7 @@ codex mcp add premiere_pro --env PREMIERE_TEMP_DIR=C:/pr-mcp-cmd -- node D:/path
 在 Claude Code 的 MCP 配置里，核心就是这两个值：
 
 ```text
-command: node D:/path/to/premiere-ai-agent/packages/premiere-mcp/dist/index.js
+command: node D:/path/to/premiere-mcp-editor-cn/packages/premiere-mcp/dist/index.js
 env: PREMIERE_TEMP_DIR=C:/pr-mcp-cmd
 ```
 
@@ -256,7 +256,7 @@ env: PREMIERE_TEMP_DIR=C:/pr-mcp-cmd
 在 OpenClaw 里，本质上也是同一套 MCP 接法：
 
 ```text
-command: node D:/path/to/premiere-ai-agent/packages/premiere-mcp/dist/index.js
+command: node D:/path/to/premiere-mcp-editor-cn/packages/premiere-mcp/dist/index.js
 env: PREMIERE_TEMP_DIR=C:/pr-mcp-cmd
 ```
 

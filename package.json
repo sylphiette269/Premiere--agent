@@ -6,11 +6,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sylphiette269/premiere-ai-agent.git"
+    "url": "https://github.com/sylphiette269/premiere-mcp-editor-cn.git"
   },
-  "homepage": "https://github.com/sylphiette269/premiere-ai-agent",
+  "homepage": "https://github.com/sylphiette269/premiere-mcp-editor-cn",
   "bugs": {
-    "url": "https://github.com/sylphiette269/premiere-ai-agent/issues"
+    "url": "https://github.com/sylphiette269/premiere-mcp-editor-cn/issues"
   },
   "keywords": [
     "mcp",
