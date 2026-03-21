@@ -3,38 +3,86 @@
 [![CI](https://github.com/sylphiette269/premiere-mcp-editor-cn/actions/workflows/ci.yml/badge.svg)](https://github.com/sylphiette269/premiere-mcp-editor-cn/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
 
-面向 `Claude Code`、`Codex` 和 `OpenClaw` 的 Premiere Pro MCP 剪辑助手，支持文档、参考视频、提示词和本地素材目录驱动的粗剪工作流。
+把 `Claude Code`、`Codex` 和 `OpenClaw` 接到 Premiere Pro 的执行层，让文档、参考视频、提示词和本地素材真正落到时间线。
 
-> ⚠️ 版本说明：当前 `v0.1.0` 为首个公开整理版，已统一中文发布页、GitHub Release 模板、Issue / PR 模板和 `OpenClaw` 接入口径。当前更适合粗剪、初版装配和节奏规划，不承诺无人值守最终成片。
+> ⚠️ 版本说明：当前 `v0.1.0` 为首个公开整理版，已统一中文首页、GitHub Release 模板、Issue / PR 模板和 `OpenClaw` 接入口径。当前主线不是“全自动成片”，而是“先规划、再确认、再执行、最后人工复核”的粗剪流程。
+
+## 这是什么
+
+`Premiere MCP 剪辑助手` 不是一个通用聊天代理，也不是只会给建议的提示词壳子。
+
+它更接近一个 `Premiere Pro` 宿主执行器：
+
+- 上游接 `Claude Code`、`Codex`、`OpenClaw`
+- 中间做素材扫描、编辑规划、参数整理和安全边界控制
+- 下游接 `bridge` 目录、`CEP` 面板和真实时间线操作
+
+对这个仓库来说，`Premiere` 也是“把工作软件一步步接进 AI 自动化体系”的第一个公开案例。重点不在于把所有事情都交给 AI，而在于把可执行的部分交给 AI，把仍需要判断和审美的部分清楚留给人工。
+
+## 适合谁
+
+如果你的实际需求更接近下面这些，这个仓库就比较对路：
+
+- 手里已经有本地素材，想让 AI 先给一版可检查的粗剪计划
+- 有 `Word` 需求文档，想把说明转成镜头顺序、节奏和装配动作
+- 有参考视频，想先抽出节奏和结构，再回填到自己的素材
+- 只有一句提示词，但愿意先看计划、确认后再执行
+- 想把 `Premiere Pro` 接进更大的工作软件 AI 自动化体系，而不是只做一个单点演示
+
+## 不适合谁
+
+下面这些预期，当前版本并不适合直接承诺：
+
+- 希望一键生成最终成片，不需要人看一遍
+- 希望复杂动画、精细特效和高要求审美判断都自动完成
+- 还没接通 `Premiere`、`CEP`、`bridge`，就先要求 AI 直接改时间线
+- 把它当成通用聊天代理、通用搜索代理或万能工作流平台来用
 
 ## 原理
 
 ```text
-┌───────────────┐     ┌──────────────────────┐     ┌────────────────────┐
-│ Claude Code    │────▶│                      │────▶│                    │
-│ Codex          │     │  premiere-mcp        │     │  Bridge 目录       │
-│ OpenClaw       │◀────│  MCP 服务 + 协议层   │◀────│  C:/pr-mcp-cmd     │
-└───────────────┘     └──────────────────────┘     └────────────────────┘
-         ▲                                                   │
-         │                                                   ▼
-┌────────────────────┐                             ┌────────────────────┐
-│ audio-beat-mcp     │                             │ PR MCP CEP 面板     │
-│ video-research-mcp │                             │ Adobe Premiere Pro  │
-└────────────────────┘                             └────────────────────┘
+剪辑说明 / 参考视频 / 提示词 + 本地素材目录
+                  │
+                  ▼
+     scan:media / plan:edit / review:edit
+                  │
+                  ▼
+       premiere-mcp 执行层 + 规划层
+          │                    │
+          │                    ├── audio-beat-mcp
+          │                    └── video-research-mcp
+          ▼
+     Bridge 目录 + PR MCP CEP 面板
+                  │
+                  ▼
+          Adobe Premiere Pro 时间线
 ```
 
-## 核心特性
+## 三种工作入口
 
-- `Claude Code / Codex / OpenClaw` 接入兼容：同一套 `MCP` 服务入口，适合不同客户端复用。
-- `Premiere Pro` 真执行链路：不是只给文本建议，而是通过 `bridge + CEP` 真正把规划写进时间线。
-- `Word 文档驱动`：可把 `.docx` 剪辑说明转成装配计划，再进入 Premiere 执行。
-- `参考视频驱动`：支持先提取参考视频节奏和结构，再回填到本地素材粗剪。
-- `提示词驱动`：只有一句需求时，也能先规划镜头和节奏，再进入执行阶段。
-- `浏览器参考检索增强`：可选配合 `chrome-devtools-mcp`，先去抖音或哔哩哔哩找参考，再生成更稳的粗剪方案。
-- `音频节拍拆层`：`audio-beat-mcp` 负责节拍分析和节奏规划，不把所有逻辑都挤进一个包里。
-- `参考视频研究拆层`：`video-research-mcp` 负责候选收集、信号提取和 `blueprint.json` 聚合。
-- `中文优先发布面`：首页、快速开始、Issue / PR 模板、Release 模板都已统一成中文口径。
-- `工作流先规划后执行`：默认更适合“先扫描素材 -> 先给计划 -> 人确认 -> 再执行”的可检查闭环。
+### 1. 文档驱动
+
+最适合已经有 `brief`、分镜说明或 `Word` 文档的情况。
+
+```text
+Word 文档 -> convert:docx -> plan:edit / review:edit -> Premiere 执行
+```
+
+### 2. 参考视频驱动
+
+最适合“想模仿节奏和结构，但素材是自己的”这种场景。
+
+```text
+参考视频 -> blueprint -> 本地素材回填 -> Premiere 执行
+```
+
+### 3. 提示词驱动
+
+最适合还没有正式文档，但已经知道成片方向的时候。
+
+```text
+一句需求 -> 先出粗剪计划 -> 人确认 -> Premiere 执行
+```
 
 ## 快速开始
 
@@ -113,7 +161,7 @@ env: PREMIERE_TEMP_DIR=C:/pr-mcp-cmd
 5. 再调用 Premiere MCP 真正执行
 6. 人工复核结果并继续精修
 
-## 主要配置项
+## 接入时要对齐的配置
 
 | 配置项 | 说明 | 默认值 / 建议值 |
 | --- | --- | --- |
@@ -145,7 +193,7 @@ npm run plan:edit -- --docx "D:/brief/需求.docx" --media-json "docs/media.json
 npm run review:edit -- --docx "D:/brief/需求.docx" --media-json "docs/media.json" --output "docs/review.md"
 ```
 
-## 项目结构
+## 仓库结构
 
 ```text
 premiere-mcp-editor-cn/
@@ -163,49 +211,16 @@ premiere-mcp-editor-cn/
 └── .github/                   # CI、Issue、PR、Release 模板
 ```
 
-## 技术架构
+## 为什么拆成三个包
 
-### 文档驱动链路
+- `packages/premiere-mcp`：真正负责和 `Premiere Pro` 打交道，是这套系统的执行层
+- `packages/audio-beat-mcp`：单独处理节拍分析和节奏参数，不把音频逻辑塞进主包
+- `packages/video-research-mcp`：单独处理参考视频研究、候选收集和 `blueprint` 聚合
+- 这种拆法的重点不是“包越多越高级”，而是让规划、研究和执行边界更清楚，后面也更容易继续接入其他工作软件
 
-```text
-Word 文档
-  -> convert:docx
-  -> plan:edit / review:edit
-  -> premiere-mcp
-  -> Premiere Pro
-```
+## 从需求到执行的落地方式
 
-### 参考视频驱动链路
-
-```text
-参考视频 / 候选链接
-  -> video-research-mcp
-  -> blueprint.json
-  -> premiere-mcp
-  -> Premiere Pro
-```
-
-### 节拍驱动链路
-
-```text
-本地音频
-  -> audio-beat-mcp
-  -> 节拍规划 / 工具参数
-  -> premiere-mcp
-  -> Premiere Pro
-```
-
-### 执行设计
-
-- 默认走“先规划、再确认、后执行”的流程
-- `Premiere` 里的 `PR MCP` 面板与 Node 侧 `bridge` 目录必须一致
-- 包级拆分以职责清晰为主，不追求所有能力堆到单点入口
-
-## 工具格式
-
-`Claude Code`、`Codex`、`OpenClaw` 发来的能力定义，最终都会通过 `premiere-mcp` 转成可执行的时间线操作。
-
-对外理解时，可以把它概括成这条链：
+不管你是从文档、参考视频还是一句提示词开始，最后都要落到同一条执行链：
 
 ```text
 用户需求
@@ -221,7 +236,9 @@ Word 文档
 - 参考视频：`参考视频 -> blueprint -> 规划 -> 执行`
 - 节拍数据：`音频 -> beat plan -> 工具参数 -> 执行`
 
-## 环境变量
+这里最关键的不是“AI 会不会说”，而是“最终有没有真正落到时间线”。所以这个仓库首页才会一直强调 `bridge`、`CEP` 和人工复核。
+
+## 桥接相关环境变量
 
 | 环境变量 | 说明 |
 | --- | --- |
